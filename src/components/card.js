@@ -1,5 +1,3 @@
-import { handleImageClick } from '../scripts/index.js';
-
 // Шаблон карточки
 const cardTemplate = document.querySelector('#card-template').content;
 
