@@ -45,7 +45,7 @@ function createNewCard(name, link) {
 }
 
 // Функции реализации попапа  изображением
-function handleImageClick(cardData) {
+export function handleImageClick(cardData) {
     imagePopupPicture.src = cardData.link;
     imagePopupPicture.alt = cardData.name;
     imagePopupCaption.textContent = cardData.name;

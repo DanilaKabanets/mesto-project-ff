@@ -1,4 +1,4 @@
-import { handleImageClick } from './modal.js';
+import { handleImageClick } from '../scripts/index.js';
 
 // Шаблон карточки
 const cardTemplate = document.querySelector('#card-template').content;
