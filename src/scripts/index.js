@@ -1,6 +1,6 @@
 import '../pages/index.css';
 import { initialCards } from './cards.js';
-import { createCard, handleDelete, handleLike } from '../components/card.js';
+import { createCard, handleDeleteCard, handleLikeCard } from '../components/card.js';
 import { openPopup, closePopup, handleOverlayClick } from '../components/modal.js';
 
 // DOM элементы попапов
@@ -33,8 +33,8 @@ const placesList = document.querySelector('.places__list');
 // Функции работы с карточками
 function renderCard(cardData) {
     const cardElement = createCard(cardData, {
-        handleDelete,
-        handleLike,
+        handleDeleteCard,
+        handleLikeCard,
         handleImageClick
     });
     placesList.prepend(cardElement);
