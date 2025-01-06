@@ -55,9 +55,11 @@ export function createCard(cardData, { handleDeleteCard, handleLikeCard, handleI
 
 export function handleDeleteCard(cardElement, cardId) {
     const deletePopup = document.querySelector('.popup_type_delete-card');
+    const deleteForm = deletePopup.querySelector('.popup__form');
     const submitButton = deletePopup.querySelector('.popup__button_type_confirm');
     
-    function handleDelete() {
+    function handleSubmit(evt) {
+        evt.preventDefault();
         submitButton.textContent = 'Удаление...';
         
         deleteCard(cardId)
@@ -71,16 +73,6 @@ export function handleDeleteCard(cardElement, cardId) {
             });
     }
 
-    function handleKeyPress(evt) {
-        if (evt.key === 'Enter') {
-            evt.preventDefault();
-            handleDelete();
-        }
-    }
-
-    submitButton.addEventListener('click', handleDelete, { once: true });
-    submitButton.addEventListener('keydown', handleKeyPress, { once: true });
-    submitButton.focus();
-    
+    deleteForm.addEventListener('submit', handleSubmit, { once: true });
     openPopup(deletePopup);
 }

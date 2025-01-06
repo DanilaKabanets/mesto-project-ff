@@ -2,7 +2,7 @@ import '../pages/index.css';
 import { createCard, handleLikeCard, handleDeleteCard } from '../components/card.js';
 import { openPopup, closePopup, handleOverlayClick, handleEditProfileClick, handleAddCardClick, handleEditAvatarClick, handleEditFormSubmit, handleAvatarFormSubmit, handleAddCardFormSubmit } from '../components/modal.js';
 import { validationConfig, validation } from '../components/validation.js';
-import { getInitialData, deleteCard } from '../components/api.js';
+import { getInitialData } from '../components/api.js';
 
 // DOM элементы попапов
 const editPopup = document.querySelector('.popup_type_edit');
@@ -37,6 +37,8 @@ const imagePopupCaption = imagePopup.querySelector('.popup__caption');
 const placesList = document.querySelector('.places__list');
 
 let userId;
+let cardToDelete;
+let cardIdToDelete;
 
 // Функции работы с карточками
 function renderCard(cardData) {
@@ -57,6 +59,8 @@ function handleImageClick(cardData) {
     imagePopupCaption.textContent = cardData.name;
     openPopup(imagePopup);
 }
+
+
 
 // Инициализация обработчиков
 function setEventListeners() {
