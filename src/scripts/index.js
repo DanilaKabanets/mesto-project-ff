@@ -37,8 +37,6 @@ const imagePopupCaption = imagePopup.querySelector('.popup__caption');
 const placesList = document.querySelector('.places__list');
 
 let userId;
-let cardToDelete;
-let cardIdToDelete;
 
 // Функции работы с карточками
 function renderCard(cardData) {
