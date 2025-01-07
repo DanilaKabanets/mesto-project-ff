@@ -1,15 +1,6 @@
 // Экспортируем функцию enableValidation под именем validation
 export { enableValidation as validation, clearValidationErrors };
 
-// Объект с настройками валидации - содержит все необходимые селекторы и классы
-export const validationConfig = {
-    formSelector: '.popup__form',           // селектор для форм
-    inputSelector: '.popup__input',         // селектор для полей ввода
-    submitButtonSelector: '.popup__button', // селектор для кнопки отправки
-    inactiveButtonClass: 'popup__button_disabled', // класс для неактивной кнопки
-    inputErrorClass: 'popup__input_type_error',    // класс для поля с ошибкой
-    errorClass: 'popup__error_visible'      // класс для отображения сообщения об ошибке
-};
 
 // Функция создания элемента ошибки
 const createErrorElement = (formElement, inputElement) => {
@@ -54,81 +45,21 @@ const hidingInputError = (formElement, inputElement, validationConfig) => {
 
 // Функция для проверки валидности поля ввода
 const checkInputValidity = (formElement, inputElement, validationConfig) => {
-    const nameRegex = /^[a-zA-Zа-яА-ЯёЁ\s\-]+$/;
-    const urlRegex = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
-
-    const validationRules = {
-        'edit-profile': {
-            'name': {
-                minLength: 2,
-                maxLength: 40,
-                regex: nameRegex,
-                messages: {
-                    empty: 'Вы пропустили это поле.',
-                    length: 'Имя должно быть от 2 до 40 символов.',
-                    pattern: 'Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы.'
-                }
-            },
-            'description': {
-                minLength: 2,
-                maxLength: 200,
-                regex: nameRegex,
-                messages: {
-                    empty: 'Вы пропустили это поле.',
-                    length: 'Описание должно быть от 2 до 200 символов.',
-                    pattern: 'Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы.'
-                }
-            }
-        },
-        'new-place': {
-            'place-name': {
-                minLength: 2,
-                maxLength: 30,
-                regex: nameRegex,
-                messages: {
-                    empty: 'Вы пропустили это поле.',
-                    length: 'Название должно быть от 2 до 30 символов.',
-                    pattern: 'Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы.'
-                }
-            },
-            'link': {
-                regex: urlRegex,
-                messages: {
-                    empty: 'Введите адрес сайта.',
-                    pattern: 'Введите адрес сайта.'
-                }
-            }
-        },
-        'edit-avatar': {
-            'avatar': {
-                regex: urlRegex,
-                messages: {
-                    empty: 'Вы пропустили это поле.',
-                    pattern: 'Введите корректный адрес изображения изображения.'
-                }
-            }
-        }
-    };
-
-    const formName = formElement.getAttribute('name');
-    const inputName = inputElement.name;
-    const rules = validationRules[formName]?.[inputName];
-
-    if (rules) {
-        inputElement.setCustomValidity('');
-
-        if (inputElement.value.length === 0) {
-            inputElement.setCustomValidity(rules.messages.empty);
-        } else if (rules.minLength && (inputElement.value.length < rules.minLength || inputElement.value.length > rules.maxLength)) {
-            inputElement.setCustomValidity(rules.messages.length);
-        } else if (!rules.regex.test(inputElement.value)) {
-            inputElement.setCustomValidity(rules.messages.pattern);
-        }
-    }
-
     if (!inputElement.validity.valid) {
+        let errorMessage = '';
+        
+        if (inputElement.validity.valueMissing) {
+            errorMessage = inputElement.dataset.errorEmpty;
+        } else if (inputElement.validity.tooShort || inputElement.validity.tooLong) {
+            errorMessage = inputElement.dataset.errorLength;
+        } else if (inputElement.validity.patternMismatch || inputElement.validity.typeMismatch) {
+            errorMessage = inputElement.dataset.errorMessage;
+        }
+        
+        inputElement.setCustomValidity(errorMessage);
         showingInputError(formElement, inputElement, validationConfig);
     } else {
+        inputElement.setCustomValidity('');
         hidingInputError(formElement, inputElement, validationConfig);
     }
 };
